@@ -26,6 +26,20 @@ export default class App extends React.Component {
     }));
   };
 
+  changeStatus = (id) => {
+    this.setState((prevState) => ({
+      tasks: prevState.tasks.map((task) =>
+        task.id === id ? { ...task, status: !task.status } : task
+      ),
+    }));
+  };
+
+  deleteTask = (id) => {
+    this.setState((prevState) => ({
+      tasks: prevState.tasks.filter((task) => task.id !== id),
+    }));
+  };
+
   addTask = () => {
     const newTask = {
       id: uniqueId(),
@@ -49,7 +63,7 @@ export default class App extends React.Component {
     return (
       <div className='form-wrp'>
         <TodoForm userInput={this.state.userInput} setUserInput={this.setUserInput} addTask={this.addTask}/>
-        <TodoList />
+        <TodoList tasks={this.state.tasks} changeStatus={this.changeStatus} deleteTask={this.deleteTask}/>
       </div>
     )
   }
